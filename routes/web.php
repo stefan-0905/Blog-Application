@@ -25,3 +25,8 @@ Route::get('/category/search/{category}', [
     'uses' => 'FrontEndController@category_search',
     'as' => 'category.search'
 ]);
+
+Route::get('/author/search/{author}', [
+    'uses' => 'FrontEndController@author_search',
+    'as' => 'author.search'
+]);

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Markdown;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,15 @@ class User extends Authenticatable
 
     // One to Many relationship with posts
     public function posts() {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    public function getRouteKeyName() {
+        return 'slug';
+    }
+
+    // Convert bio markdown text into html 
+    public function getBioHtmlAttribute($value) {
+        return $this->bio ? Markdown::convertToHtml(e($this->bio)) : NULL;
     }
 }

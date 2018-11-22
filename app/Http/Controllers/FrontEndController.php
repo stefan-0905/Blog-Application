@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
@@ -31,6 +32,16 @@ class FrontEndController extends Controller
                         ->published()
                         ->simplePaginate(4);
 
-        return view('category_search', ['posts' => $posts, 'category' => $category]);
+        return view('search', ['posts' => $posts, 'search_result' => $category->title]);
+    }
+
+    public function author_search(User $author) {
+        $posts = $author->posts()
+                        ->with('category')
+                        ->latestFirst()
+                        ->published()
+                        ->simplePaginate(4);
+                        
+        return view('search', ['posts' => $posts, 'search_result' => $author->name]);
     }
 }

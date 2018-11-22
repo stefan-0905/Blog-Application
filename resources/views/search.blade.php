@@ -1,7 +1,7 @@
 @extends('layouts.frontapp')
 
 @section('content')
-    <h1>Category search: {{ $category->title }}</h1>
+    <h1>Category search: {{ $search_result }}</h1>
     @if(!$posts->count())
         <div class="alert alert-info">
             Nothing Found.
@@ -25,7 +25,9 @@
                         <div class="post-meta padding-10 clearfix">
                             <div class="pull-left">
                                 <ul class="post-meta-group">
-                                    <li><i class="fa fa-user"></i><a href="#"> {{ $post->author->name }}</a></li>
+                                    <li><i class="fa fa-user"></i>
+                                        <a href="{{ route('author.search',['author' => $post->author->slug]) }}"> {{ $post->author->name }}</a>
+                                    </li>
                                     <li><i class="fa fa-clock-o"></i><time> {{ $post->date }}</time></li>
                                     <li><i class="fa fa-tags"></i>
                                         <a href="{{ route('category.search', ['category' => $post->category->slug]) }}"> {{ $post->category->title }}</a>

@@ -30,3 +30,13 @@ Route::get('/author/search/{author}', [
     'uses' => 'FrontEndController@author_search',
     'as' => 'author.search'
 ]);
+
+Route::post('search', [
+    'uses' => 'FrontEndController@search',
+    'as' => 'title.search'
+]);
+
+// Route::get('search/{post}', [
+//     'uses' => 'FrontEndController@search_post',
+//     'as' => 'search.post'
+// ]);

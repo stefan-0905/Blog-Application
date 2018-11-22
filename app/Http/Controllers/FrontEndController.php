@@ -44,4 +44,14 @@ class FrontEndController extends Controller
                         
         return view('search', ['posts' => $posts, 'search_result' => $author->name]);
     }
+
+    public function search(Request $request) {
+        $posts = Post::where('title', 'like', '%'.$request->search.'%')
+                        ->with('author')
+                        ->latestFirst()
+                        ->published()
+                        ->simplePaginate();
+        
+        return view('search', ['posts' => $posts, 'search_result' => $request->search]);
+    }
 }

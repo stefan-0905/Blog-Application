@@ -35,7 +35,7 @@
         <div class="media">
             <div class="media-left">
                 <a href="{{ route('author.search',['author' => $post->author->slug]) }}">
-                    <img alt="{{ $post->author->name }}" width="100px" src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" class="media-object">
+                <img alt="{{ $post->author->name }}" width="100px" src="{{ $post->author->avatar }}" class="media-object">
                 </a>
             </div>
             <div class="media-body">

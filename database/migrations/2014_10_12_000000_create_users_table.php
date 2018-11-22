@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('slug')->unique();
             $table->string('email')->unique();
             $table->text('bio');
+            $table->string('avatar')->default('https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -22,6 +22,8 @@ class FrontEndController extends Controller
      * Injecting Post which we registered in our RouteServiceProvider
      */
     public function show(Post $post) {
+        $post->view_count++;
+        $post->save();
         return view('show', ['post' => $post]);
     }
 

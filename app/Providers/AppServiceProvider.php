@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use View;
+use App\Post;
 use App\Category;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $categories = Category::with('posts')->orderBy('title', 'asc')->get();
-        View::share('categories', $categories);
+        $popularPosts = Post::with('author')->published()->popular()->take(3)->get();
+        View::share(['categories' => $categories, 'popularPosts' => $popularPosts]);
     }
 
     /**

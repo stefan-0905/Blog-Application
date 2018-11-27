@@ -19,7 +19,7 @@ class FrontEndController extends Controller
     }
     
     /**
-     * Injecting Post which we registered in our RouteServiceProvider
+     * Injecting Post which we registered in our RouteServiceProvider - Explicit Binding
      */
     public function show(Post $post) {
         $post->view_count++;
@@ -27,6 +27,10 @@ class FrontEndController extends Controller
         return view('show', ['post' => $post]);
     }
 
+    /**
+     * Here Category is injected by Implicit Binding with customized RouteKeyName 
+     * defined in class model
+     */
     public function category_search(Category $category) {
         $posts = $category->posts()
                         ->with('author')

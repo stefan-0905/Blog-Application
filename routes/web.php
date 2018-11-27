@@ -36,7 +36,9 @@ Route::post('search', [
     'as' => 'title.search'
 ]);
 
-// Route::get('search/{post}', [
-//     'uses' => 'FrontEndController@search_post',
-//     'as' => 'search.post'
-// ]);
+Route::prefix('admin')->group(function() {
+    Auth::routes();
+
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+});
+

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <p class="copyright">&copy; 2016 Edo Masaru</p>
+                <p class="copyright">&copy; 2018 Stefan Djordjevic</p>
             </div>
             <div class="col-md-4">
                 <nav>
@@ -10,7 +10,7 @@
                         <li><a href="#" class="i fa fa-facebook"></a></li>
                         <li><a href="#" class="i fa fa-twitter"></a></li>
                         <li><a href="#" class="i fa fa-google-plus"></a></li>
-                        <li><a href="#" class="i fa fa-github"></a></li>
+                        <li><a href="https://github.com/stefan-0905" class="i fa fa-github"></a></li>
                     </ul>
                 </nav>
             </div>

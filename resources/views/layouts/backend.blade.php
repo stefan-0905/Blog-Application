@@ -15,7 +15,8 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ asset('backend/css/skins/_all-skins.min.css') }}">
-
+  <!-- Custom styling -->
+  <link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -28,33 +29,33 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+  <div class="wrapper">
 
-  @include('backend.includes.header')
-  @include('backend.includes.aside')
+    @include('backend.includes.header')
+    @include('backend.includes.aside')
 
-  <div class="content-wrapper">
-      @yield('content')
-  </div>
-  
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+    <div class="content-wrapper">
+        @yield('content')
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer>
+    
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.4.0
+        </div>
+        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+        reserved.
+    </footer>
 
-</div>
-<!-- ./wrapper -->
+  </div>
+  <!-- ./wrapper -->
 
-<!-- jQuery 3 -->
-<script src="{{ asset('backend/js/jquery.min.js') }}"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
-<!-- FastClick -->
-<script src="{{ asset('backend/js/fastclick/lib/fastclick.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('backend/js/adminlte.min.js') }}"></script>
+  <!-- jQuery 3 -->
+  <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
+  <!-- FastClick -->
+  <script src="{{ asset('backend/js/fastclick/lib/fastclick.js') }}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ asset('backend/js/adminlte.min.js') }}"></script>
 </body>
 </html>

@@ -40,5 +40,15 @@ Route::prefix('admin')->group(function() {
     Auth::routes();
 
     Route::get('/dashboard', 'Backend\HomeController@index')->name('dashboard');
+
+    Route::get('/posts', [
+        'uses' => 'Backend\PostsController@index',
+        'as' => 'posts'
+    ]);
+
+    Route::get('/post/create', [
+        'uses' => 'Backend\PostsController@create',
+        'as' => 'post.create'
+    ]);
 });
 

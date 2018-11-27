@@ -28,28 +28,28 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page">
-  <div id="app">
-    <main class="py-4">
-      @yield('content')
-    </main>
-  </div>
-  
-  <!-- jQuery 2.2.3 -->
-  <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
-  <!-- Bootstrap 3.3.6 -->
-<script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
-<!-- iCheck -->
-<script src="{{ asset('backend/js/icheck.min.js') }}"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' /* optional */
-    });
-  });
-</script>
-</body>
+    <body class="hold-transition login-page">
+        <div id="app">
+            <main class="py-4">
+                @yield('content')
+            </main>
+        </div>
+      
+        <!-- jQuery 2.2.3 -->
+        <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
+        <!-- iCheck -->
+        <script src="{{ asset('backend/js/icheck.min.js') }}"></script>
+        <script>
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' /* optional */
+                });
+            });
+        </script>
+    </body>
 </html>
 

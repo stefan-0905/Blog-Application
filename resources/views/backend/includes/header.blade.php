@@ -19,18 +19,19 @@
                 <ul class="nav navbar-nav">
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
+                    <?php $currentUser = Auth::user(); ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{ asset('backend/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-                    <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                    <img src="{{ $currentUser->avatar }}" class="user-image" alt="{{ $currentUser->name }}">
+                    <span class="hidden-xs">{{ $currentUser->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                     <!-- User image -->
                     <li class="user-header">
-                        <img src="{{ asset('backend/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                        <img src="{{ $currentUser->avatar }}" class="img-circle" alt="{{ $currentUser->name }}">
         
                         <p>
-                        Alexander Pierce - Web Developer
-                        <small>Member since Nov. 2012</small>
+                        {{ $currentUser->name }} - Web Developer
+                        <small>Member since {{ $currentUser->created_at->toFormattedDateString() }}</small>
                         </p>
                     </li>
                     <!-- Menu Footer-->

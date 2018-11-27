@@ -69,4 +69,16 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * Overriding registration auth links so they throw 404 error
+     * We will register users with UsersController
+     */
+    public function showRegistrationForm() {
+        abort(404);
+    }
+
+    public function register(Request $request) {
+        abort(404);
+    }
 }

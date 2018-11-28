@@ -24,6 +24,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <link rel="stylesheet" href="{{ asset('backend/js/simplemde/simplemde.min.css') }}">
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -46,16 +47,19 @@
         reserved.
     </footer>
 
-  </div>
-  <!-- ./wrapper -->
+    </div>
+    <!-- ./wrapper -->
 
-  <!-- jQuery 3 -->
-  <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
-  <!-- FastClick -->
-  <script src="{{ asset('backend/js/fastclick/lib/fastclick.js') }}"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ asset('backend/js/adminlte.min.js') }}"></script>
+    <!-- jQuery 3 -->
+    <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('backend/js/fastclick/lib/fastclick.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('backend/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('backend/js/simplemde/simplemde.min.js') }}"></script>
+
+    @yield('scripts')
 </body>
 </html>

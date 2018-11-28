@@ -110,3 +110,12 @@
     </section>
     <!-- /.content -->
 @endsection
+
+@section('scripts')
+<script>
+    var simplemde1 = new SimpleMDE({ element: $("#body")[0] });
+
+</script>
+
+
+@endsection

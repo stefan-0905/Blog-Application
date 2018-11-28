@@ -57,7 +57,8 @@ class PostsController extends BackendController
                 $extension = $request->image->getClientOriginalExtension();
                 $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
                 
-                //Creating thumbnail image by resizing original
+                // Creating thumbnail image by resizing original
+                // Using intervention/image package
                 Image::make($destination . '/' . $fileName)
                         ->resize(config('cms.image.thumbnail.width'), config('cms.image.thumbnail.height'))
                         ->save($destination . '/' . $thumbnail);

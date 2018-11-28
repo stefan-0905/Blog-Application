@@ -7,13 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    protected $fillable = ['title', 
+                            'slug', 
+                            'body', 
+                            'category_id', 
+                            'author_id', 
+                            'published_at',
+                            'image'
+                        ];
     protected $dates = ['published_at'];
 
     // Accessor for getting full image url 
     public function getImageUrlAttribute($value) {
         $imageUrl = '';
         if(!is_null($this->image)) {
-            $imagePath = public_path().'/img/'.$this->image;
+            $directory = config('cms.image.directory');
+            $imagePath = public_path()."/{$directory}/".$this->image;
             if(file_exists($imagePath)) $imageUrl = asset('img/'.$this->image);
         }
         return $imageUrl;
@@ -23,10 +32,11 @@ class Post extends Model
     public function getImageThumbAttribute($value) {
         $imageUrl = '';
         if(!is_null($this->image)) {
+            $directory = config('cms.image.directory');
             $ext = substr(strrchr($this->image, '.'), 1);
             $thumbnail = str_replace('.jpg', "_thumb.{$ext}", $this->image);
-            $imagePath = public_path().'/img/'.$thumbnail;
-            if(file_exists($imagePath)) $imageUrl = asset('img/'.$thumbnail);
+            $imagePath = public_path()."/{$directory}/".$thumbnail;
+            if(file_exists($imagePath)) $imageUrl = asset("{$directory}/".$thumbnail);
         }
         return $imageUrl;
     }
@@ -41,6 +51,10 @@ class Post extends Model
         return $this->body ? Markdown::convertToHtml(e($this->body)) : NULL;
     }
 
+    public function setPublishedAtAttribute($value) {
+        $this->attributes['published_at'] = $value ?: NULL;
+    }
+
     // One to many relationship with user
     public function author() {
         return $this->belongsTo(User::class);
@@ -48,6 +62,15 @@ class Post extends Model
 
     public function category() {
         return $this->belongsTo(Category::class);
+    }
+
+    public function publicationLabel() {
+        if(!$this->published_at)
+            return '<span class="label label-warning">Draft</span>';
+        elseif($this->published_at && $this->published_at->isFuture())  
+            return '<span class="label label-info">Scheduled</span>';
+        else
+            return '<span class="label label-success">Published</span>';
     }
 
     // Scope with latest posts ordered by created_at column

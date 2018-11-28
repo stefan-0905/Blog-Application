@@ -50,5 +50,10 @@ Route::prefix('admin')->group(function() {
         'uses' => 'Backend\PostsController@create',
         'as' => 'post.create'
     ]);
+
+    Route::post('post/store', [
+        'uses' => 'Backend\PostsController@store',
+        'as' => 'post.store'
+    ]);
 });
 

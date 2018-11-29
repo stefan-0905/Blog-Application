@@ -17,12 +17,32 @@ class PostsController extends BackendController
         $this->uploadPath = public_path(config('cms.image.directory'));
     }
 
-    public function index() {
-        return view('backend.posts.index', 
-                    ['posts' => \App\Post::with('author', 'category')
-                                        ->latestFirst()
-                                        ->Paginate(5)
-                    ]);
+    public function index(Request $request) {
+        $onlyTrashed = FALSE;
+        if(($status = $request->get('status')) && $status == 'trashed') {
+            $posts = \App\Post::onlyTrashed()->with('author', 'category')->latestFirst()->Paginate(5);
+            $onlyTrashed = TRUE;
+        } elseif($status == 'published') {
+            $posts = \App\Post::published()->with('author', 'category')->latestFirst()->Paginate(5);
+        } elseif($status == 'scheduled') {
+            $posts = \App\Post::scheduled()->with('author', 'category')->latestFirst()->Paginate(5);
+        } elseif($status == 'draft') {
+            $posts = \App\Post::draft()->with('author', 'category')->latestFirst()->Paginate(5);
+        } else {
+            $posts = \App\Post::with('author', 'category')->latestFirst()->Paginate(5);
+        }
+        $statusList = $this->statusList();
+        return view('backend.posts.index', compact('posts', 'onlyTrashed', 'statusList'));
+    }
+
+    private function statusList() {
+        return [
+            'trashed' => \App\Post::onlyTrashed()->count(),
+            'published' => \App\Post::published()->count(),
+            'scheduled' => \App\Post::scheduled()->count(),
+            'draft' => \App\Post::draft()->count(),
+            'all' => \App\Post::all()->count()
+        ];
     }
 
     public function create() {
@@ -48,6 +68,7 @@ class PostsController extends BackendController
 
     public function handleImage(Request $request) {
         if($request->hasFile('image')) {
+             
             $fileName = time().$request->image->getClientOriginalName();
             $destination = $this->uploadPath;
             
@@ -80,11 +101,50 @@ class PostsController extends BackendController
         $post->published_at = $request->published;
         $post->category_id = $request->category_id;
         
-        if($fileName = $this->handleImage($request))
+        if($fileName = $this->handleImage($request)) {
+            if($post->image != '')
+                $this->removeImage($post->image);
             $post->image = $fileName;
+        }
 
         $post->save();
 
         return redirect()->route('posts')->with('success', 'Your post was updated successfully!');
+    }
+
+    public function delete(int $id) {
+        $post = \App\Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back()->with('trash-message', ['Post successfully moved to trash!', $post->id]);
+    }
+
+    public function restore($id) {
+        $post = \App\Post::onlyTrashed()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->back()->with('success', 'Post Restored!');
+    }
+
+    private function removeImage($image) {
+        if(!empty($image)) {
+            $imagePath = $this->uploadPath . '/' . $image;
+            $extension = substr(strrchr($image, '.'), 1);
+            $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $image);
+            $thumbnailPath = $this->uploadPath . '/' . $thumbnail;
+            
+            if(file_exists($imagePath)) unlink($imagePath);
+            if(file_exists($thumbnailPath)) unlink($thumbnailPath);
+        }
+    }
+
+    public function destroy($id) {
+        $post = \App\Post::onlyTrashed()->findOrFail($id);
+        if($this->removeImage($post->image)) {
+            $post->forceDelete();
+            return redirect('/admin/posts?status=trashed')->with('success', 'Your post has been deleted successfully.');
+        } else {
+            return redirect('/admin/posts?status=trashed')->with('error', 'Something went wrong. Post image doesn\'t exist');
+        }
+
     }
 }

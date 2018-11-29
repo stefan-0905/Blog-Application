@@ -3,10 +3,13 @@
 namespace App;
 
 use Markdown;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['title', 
                             'slug', 
                             'body', 
@@ -90,5 +93,13 @@ class Post extends Model
 
     public function scopePopular($query) {
         return $query->orderBy('view_count', 'desc');
+    }
+
+    public function scopeScheduled($query) {
+        return $query->where('published_at', '>', now());
+    }
+
+    public function scopeDraft($query) {
+        return $query->whereNull('published_at');
     }
 }

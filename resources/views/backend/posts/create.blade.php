@@ -19,7 +19,7 @@
     <section class="content">
         <div class="row">
             <!-- form start -->
-            <form role="form" method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+            <form id="create-post-form" role="form" method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="col-xs-9">
                     <div class="box">
@@ -40,10 +40,6 @@
                             </div>
                         </div>
                         <!-- /.box-body -->
-
-                        <div class="box-footer">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -54,7 +50,12 @@
                         <div class="box-body">
                             <div class="form-group{{ $errors->has('published') ? ' has-error' : '' }}">
                                 <label for="published">Publish date</label>
-                                <input type="text" name="published" class="form-control">
+                                <div class='input-group date' id='published'>
+                                    <input id="published_at" type='text' name="published" class="form-control" />
+                                    <span class="input-group-addon">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
                                 @if ($errors->has('published'))
                                     <span class="help-block">{{ $errors->first('published') }}</span>
                                 @endif
@@ -62,10 +63,10 @@
                         </div>
                         <div class="box-footer clearfix">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default">Save Draft</a>
+                                <a id="draft-btn" href="#" class="btn btn-default">Save Draft</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-primary">Publish</a>
+                                <button class="btn btn-primary" type="submit">Publish</button>
                             </div>
                         </div>
                     </div>
@@ -91,12 +92,14 @@
                         <div class="box-body text-center">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                    <img src="http://placehold.it/200x200" width="100%" alt="...">
+                                    <img data-src="holder.js/200x150" alt="...">
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                 <div>
-                                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
-                                        <input type="file" name="image">
+                                    <span class="btn btn-default btn-file">
+                                        <span class="fileinput-new">Select image</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <input type="file" name="...">
                                     </span>
                                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                 </div>
@@ -114,6 +117,30 @@
 @section('scripts')
 <script>
     var simplemde1 = new SimpleMDE({ element: $("#body")[0] });
+
+    // Settings for datetimepicker
+    $('#published').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        showClear: true,
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+            previous: 'fas fa-arrow-left',
+            next: 'fas fa-arrow-right',
+            today: 'glyphicon glyphicon-screenshot',
+            clear: 'fas fa-trash',
+            close: 'fas fa-times'
+        }
+    });
+
+    // Saving post as draft
+    $('#draft-btn').click(function(e) {
+        e.preventDefault();
+        $('#published_at').val("");
+        $('#create-post-form').submit();
+    })
 
 </script>
 

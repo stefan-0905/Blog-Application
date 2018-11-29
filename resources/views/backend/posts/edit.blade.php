@@ -1,17 +1,17 @@
 @extends('layouts.backend')
 @section('title')
-    MyBLOG | Create New Post
+    MyBLOG | Edit Post
 @endsection
 
 @section('content')
     <section class="content-header">
         <h1>
-        Add New Post
+        Edit Post
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="{{ route('posts') }}">Posts</a></li>
-            <li class="active">Add New Post</li>
+            <li class="active">Edit Post</li>
         </ol>
     </section>
     
@@ -19,21 +19,22 @@
     <section class="content">
         <div class="row">
             <!-- form start -->
-            <form id="create-post-form" role="form" method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+            <form id="create-post-form" role="form" method="POST" action="{{ route('post.update', ['id'=> $post->id]) }}" enctype="multipart/form-data">
+                
                 @csrf
                 <div class="col-xs-9">
                     <div class="box">
                         <div class="box-body">
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label for="title">Title</label>
-                                <input type="text" name="title" placeholder="Enter Title here" id="title" class="form-control">
+                                <input type="text" name="title" value="{{ $post->title }}" placeholder="Enter Title here" id="title" class="form-control">
                                 @if ($errors->has('title'))
                                     <span class="help-block">{{ $errors->first('title') }}</span>
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                 <label for="body">Body</label>
-                                <textarea name="body" id="body" rows="10" class="form-control"></textarea>
+                                <textarea name="body" id="body" rows="10" class="form-control">{{ $post->body }}</textarea>
                                 @if ($errors->has('body'))
                                     <span class="help-block">{{ $errors->first('body') }}</span>
                                 @endif
@@ -51,7 +52,7 @@
                             <div class="form-group{{ $errors->has('published') ? ' has-error' : '' }}">
                                 <label for="published">Publish date</label>
                                 <div class='input-group date' id='published'>
-                                    <input id="published_at" type='text' name="published" class="form-control" />
+                                    <input id="published_at" value="{{ $post->published_at }}" type='text' name="published" class="form-control" />
                                     <span class="input-group-addon">
                                         <i class="far fa-calendar-alt"></i>
                                     </span>
@@ -66,7 +67,7 @@
                                 <a id="draft-btn" href="#" class="btn btn-default">Save Draft</a>
                             </div>
                             <div class="pull-right">
-                                <button class="btn btn-primary" type="submit">Publish</button>
+                                <button id="publish" class="btn btn-primary">Publish</button>
                             </div>
                         </div>
                     </div>
@@ -78,7 +79,12 @@
                             @foreach($categories as $category)
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="category_id" id="{{ $category->id}}" value="{{ $category->id}}">
+                                        <input type="radio" name="category_id" 
+                                                id="{{ $category->id}}" 
+                                                value="{{ $category->id}}"
+                                                @if($post->category->id == $category->id) 
+                                                    checked
+                                                @endif>
                                         {{ $category->title }}
                                     </label>
                                 </div>
@@ -92,14 +98,21 @@
                         <div class="box-body text-center">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                    <img data-src="holder.js/200x150" alt="...">
+                                    <img 
+                                    @if($post->image!="") 
+                                        src="{{$post->image_thumb}}"
+                                    @else 
+                                        data-src="holder.js/200x150" 
+                                    @endif
+                                    alt="...">
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                 <div>
                                     <span class="btn btn-default btn-file">
                                         <span class="fileinput-new">Select image</span>
                                         <span class="fileinput-exists">Change</span>
-                                        <input type="file" name="image">
+                                        <input type="file" name="image"
+                                        @if($post->image!="") value="{{$post->image}}" @endif>
                                     </span>
                                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                 </div>
@@ -140,7 +153,13 @@
         e.preventDefault();
         $('#published_at').val("");
         $('#create-post-form').submit();
-    })
+    });
+
+    $('#publish').click(function(e) {
+        e.preventDefault();
+        $('#published_at').val('{{ now() }}');
+        $('#create-post-form').submit();
+    });
 
 </script>
 

@@ -55,6 +55,11 @@ class Post extends Model
         $this->attributes['published_at'] = $value ?: NULL;
     }
 
+    public function setTitleAttribute($value) {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
+
     // One to many relationship with user
     public function author() {
         return $this->belongsTo(User::class);

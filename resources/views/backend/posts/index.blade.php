@@ -62,7 +62,7 @@
                                     @foreach($posts as $post)
                                         <tr>
                                             <td width="70">
-                                                <a title="Edit" class="btn btn-xs btn-default edit-row" href="#">
+                                                <a title="Edit" class="btn btn-xs btn-default edit-row" href="{{ route('post.edit', ['id' => $post->id]) }}">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a title="Delete" class="btn btn-xs btn-danger delete-row" href="#">

@@ -55,5 +55,15 @@ Route::prefix('admin')->group(function() {
         'uses' => 'Backend\PostsController@store',
         'as' => 'post.store'
     ]);
+
+    Route::get('post/edit/{id}', [
+        'uses' => 'Backend\PostsController@edit',
+        'as' => 'post.edit'
+    ]);
+
+    Route::post('post/update/{id}',[
+        'uses' => 'Backend\PostsController@update',
+        'as' => 'post.update'
+    ]);
 });
 

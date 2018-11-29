@@ -67,4 +67,24 @@ class PostsController extends BackendController
             return $fileName;
         }
     }
+
+    public function edit($id) {
+        return view('backend.posts.edit', ['post' => \App\Post::findOrFail($id)]);
+    }
+
+    public function update(Requests\CreatePostRequest $request, $id) {
+        $post = \App\Post::findOrFail($id);
+        
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->published_at = $request->published;
+        $post->category_id = $request->category_id;
+        
+        if($fileName = $this->handleImage($request))
+            $post->image = $fileName;
+
+        $post->save();
+
+        return redirect()->route('posts')->with('success', 'Your post was updated successfully!');
+    }
 }

@@ -82,5 +82,12 @@ Route::prefix('admin')->group(function() {
     ]);
 
     Route::resource('categories', 'Backend\CategoriesController');
+
+    Route::get('users/confirm/{user}', [
+        'uses' => 'Backend\UsersController@confirmDelete',
+        'as' => 'users.confirm_delete'
+    ]);
+    
+    Route::resource('users', 'Backend\UsersController');
 });
 

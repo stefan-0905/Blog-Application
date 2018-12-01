@@ -51,6 +51,7 @@
               </ul>
             </li>
             <li><a href="{{ route('categories.index') }}"><i class="fa fa-book"></i> <span>Categories</span></a></li>
+            <li><a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>Users</span></a></li>
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

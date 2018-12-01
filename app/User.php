@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'bio', 'password',
     ];
 
     /**
@@ -41,5 +41,10 @@ class User extends Authenticatable
     // Convert bio markdown text into html 
     public function getBioHtmlAttribute($value) {
         return $this->bio ? Markdown::convertToHtml(e($this->bio)) : NULL;
+    }
+
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = str_slug($value);
     }
 }

@@ -46,6 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            dd($exception);
+            return response()->redirectTo(redirect()->getUrlGenerator()->previous())->with('error', 'You cannot delete this, Bro. It was set as default and made untouchable.');
+        }
         return parent::render($request, $exception);
     }
 }

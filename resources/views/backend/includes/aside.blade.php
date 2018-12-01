@@ -45,12 +45,12 @@
                   </span>
               </a>
               <ul class="treeview-menu">
-                  <li><a href="{{ route('posts') }}" class="pl-3"><i class="fas fa-copy mr-2"></i> <span>All Posts</span></a></li>
+                  <li><a href="{{ route('posts') }}" class="pl-3"><i class="fas fa-copy mr-2"></i> <span> All Posts</span></a></li>
                   <li><a href="{{ route('post.create') }}" class="pl-3"><i class="fas fa-pencil-alt mr-2"></i> Create New</a></li>
                   <li><a href="pages/charts/flot.html" class="pl-3"><i class="fas fa-trash mr-2"></i> Trash</a></li>  
               </ul>
             </li>
-            <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Categories</span></a></li>
+            <li><a href="{{ route('categories.index') }}"><i class="fa fa-book"></i> <span>Categories</span></a></li>
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

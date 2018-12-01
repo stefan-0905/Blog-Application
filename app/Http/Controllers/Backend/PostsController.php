@@ -112,7 +112,7 @@ class PostsController extends BackendController
         return redirect()->route('posts')->with('success', 'Your post was updated successfully!');
     }
 
-    public function delete(int $id) {
+    public function delete($id) {
         $post = \App\Post::findOrFail($id);
         $post->delete();
         return redirect()->back()->with('trash-message', ['Post successfully moved to trash!', $post->id]);
@@ -125,8 +125,11 @@ class PostsController extends BackendController
         return redirect()->back()->with('success', 'Post Restored!');
     }
 
+    /**
+     * Removing Specified Image and it's thumbnail image
+     */
     private function removeImage($image) {
-        if(!empty($image)) {
+        if(!empty($image) && $this->notDefaultImage($image)) {
             $imagePath = $this->uploadPath . '/' . $image;
             $extension = substr(strrchr($image, '.'), 1);
             $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $image);
@@ -134,17 +137,34 @@ class PostsController extends BackendController
             
             if(file_exists($imagePath)) unlink($imagePath);
             if(file_exists($thumbnailPath)) unlink($thumbnailPath);
-        }
+
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Preventing deletion of default images
+     */
+    private function notDefaultImage($image) {
+        $defaultImages = array(
+            'Post_Image_1.jpg',
+            'Post_Image_2.jpg',
+            'Post_Image_3.jpg',
+            'Post_Image_4.jpg',
+            'Post_Image_5.jpg'
+        );
+        
+        if(in_array($image, $defaultImages)) 
+            return false; 
+        else 
+            return true;
     }
 
     public function destroy($id) {
         $post = \App\Post::onlyTrashed()->findOrFail($id);
-        if($this->removeImage($post->image)) {
-            $post->forceDelete();
-            return redirect('/admin/posts?status=trashed')->with('success', 'Your post has been deleted successfully.');
-        } else {
-            return redirect('/admin/posts?status=trashed')->with('error', 'Something went wrong. Post image doesn\'t exist');
-        }
+        $this->removeImage($post->image);
+        $post->forceDelete();
+        return redirect('/admin/posts?status=trashed')->with('success', 'Your post has been deleted successfully.');
 
     }
 }

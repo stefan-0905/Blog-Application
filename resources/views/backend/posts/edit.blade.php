@@ -19,7 +19,7 @@
     <section class="content">
         <div class="row">
             <!-- form start -->
-            <form id="create-post-form" role="form" method="POST" action="{{ route('post.update', ['id'=> $post->id]) }}" enctype="multipart/form-data">
+            <form id="create-post-form" role="form" method="POST" action="{{ route('post.update', ['post'=> $post->id]) }}" enctype="multipart/form-data">
                 
                 @csrf
                 <div class="col-xs-9">
@@ -155,9 +155,11 @@
         $('#create-post-form').submit();
     });
 
+    // Setting current datetime for published_at property and Publishing post
     $('#publish').click(function(e) {
         e.preventDefault();
-        $('#published_at').val('{{ now() }}');
+        if($('#published_at').val() == '')
+            $('#published_at').val('{{ now() }}');
         $('#create-post-form').submit();
     });
 

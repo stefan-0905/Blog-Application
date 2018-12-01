@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 @section('title')
-    All Posts
+    MyBLOG | All Posts
 @endsection
 
 @section('content')
@@ -26,66 +26,47 @@
                             <div class="pull-left">
                                 <a id="add-button" title="Add New" class="btn btn-success" href="{{ route('post.create') }}"><i class="fa fa-plus-circle"></i> Add New</a>
                             </div>
-                            <div class="pull-right">
-                                <form accept-charset="utf-8" method="post" class="form-inline" id="form-filter" action="#">
-                                    <div class="input-group">
-                                        <input type="hidden" name="search">
-                                        <input type="text" name="keywords" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search..." value="">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-default search-btn" type="button"><i class="fa fa-search"></i></button>
+                            <div class="pull-right form-inline">
+                                <div>
+                                    <form style="width:100%;" accept-charset="utf-8" method="post" class="pull-right" id="form-filter" action="#">
+                                        <div class="input-group pull-right">
+                                            <input type="hidden" name="search">
+                                            <input type="text" name="keywords" class="form-control input-sm" style="width: 150px;" placeholder="Search..." value="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-sm btn-default search-btn" type="button"><i class="fa fa-search"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
+                                <?php $links = []; ?>
+                                @foreach($statusList as $key => $value)
+                                    @if($value)
+                                        <?php $selected = Request::get('status') == $key ? 'selected-status' : ''; ?>
+                                        <?php $links[] = "<a class='{$selected}' href=\"?status={$key}\">". ucwords($key) . " ({$value})</a>" ?>
+                                    @endif
+                                @endforeach 
+                                {!! implode(' | ', $links) !!}
                             </div>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            @if (session('success'))
-                                <div class="alert alert-info">{{ session('success') }}</div>
-                            @endif
+                            @include('backend.includes.session_message')
                             @if(!$posts->count())
                                 <div class="alert alert-danger">
                                     <strong>No record fount.</strong>
                                 </div>
                             @else
-                                <table class="table table-bordered table-condesed">
-                                <thead>
-                                    <tr>
-                                        <th>Action</th>
-                                        <th>Title</th>
-                                        <th width="150px">Author</th>
-                                        <th width="150px">Category</th>
-                                        <th width="170px">Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($posts as $post)
-                                        <tr>
-                                            <td width="70">
-                                                <a title="Edit" class="btn btn-xs btn-default edit-row" href="{{ route('post.edit', ['id' => $post->id]) }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a title="Delete" class="btn btn-xs btn-danger delete-row" href="#">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                            </td>
-                                            <td>{{ $post->title }}</td>
-                                            <td>{{ $post->author->name }}</td>
-                                            <td>{{ $post->category->title }}</td>
-                                            <td>
-                                                <abbr title="{{ $post->created_at }}">
-                                                    {{ $post->created_at->toFormattedDateString() }}
-                                                </abbr> | {!! $post->publicationLabel() !!}</td>
-                                        </tr>
-                                        @endforeach
-                                </tbody>
-                                </table>
+                                @if($onlyTrashed)
+                                    @include('backend.posts.table-trash')
+                                @else
+                                    @include('backend.posts.table')
+                                @endif
                             @endif
                         </div>
                         <!-- /.box-body -->
 
                         <div class="box-footer clearfix">
-                            {{ $posts->links() }}
+                            {{ $posts->appends(Request::query())->links() }}
                         </div>
                     </div>
                     <!-- /.box -->

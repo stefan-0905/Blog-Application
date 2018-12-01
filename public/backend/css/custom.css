@@ -61,3 +61,7 @@
 .pr-4 {
     padding-right:40px!important;
 }
+
+a.selected-status {
+    font-weight: bold;
+}

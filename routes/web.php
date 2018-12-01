@@ -65,5 +65,22 @@ Route::prefix('admin')->group(function() {
         'uses' => 'Backend\PostsController@update',
         'as' => 'post.update'
     ]);
+
+    Route::get('post/delete/{id}', [
+        'uses' => 'Backend\PostsController@delete',
+        'as' => 'post.delete'
+    ]);
+
+    Route::put('post/restore/{id}', [
+        'uses' => 'Backend\PostsController@restore',
+        'as' => 'post.restore'
+    ]);
+
+    Route::delete('post/destroy/{id}', [
+        'uses' => 'Backend\PostsController@destroy',
+        'as' => 'post.destroy'
+    ]);
+
+    Route::resource('categories', 'Backend\CategoriesController');
 });
 

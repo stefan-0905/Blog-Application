@@ -13,20 +13,19 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         Category::create([
-            'title' => 'Web Programming',
-            'slug' => 'web-programming'
+            'title' => 'Uncategorized'
         ]);
         Category::create([
-            'title' => 'Laravel',
-            'slug' => 'laravel'
+            'title' => 'Web Programming'
         ]);
         Category::create([
-            'title' => 'Dependancy Injection',
-            'slug' => 'dependancy-injection'
+            'title' => 'Laravel'
         ]);
         Category::create([
-            'title' => 'Routing',
-            'slug' => 'routing'
+            'title' => 'Dependancy Injection'
+        ]);
+        Category::create([
+            'title' => 'Routing'
         ]);
     }
 }

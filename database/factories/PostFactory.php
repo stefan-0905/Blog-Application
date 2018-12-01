@@ -11,7 +11,7 @@ $factory->define(Post::class, function (Faker $faker) {
          */
         'author_id' => rand(1, 3),
         'title' => $title,
-        'slug' => str_slug($title),
+        // 'slug' => str_slug($title),
         'body' => $faker->paragraphs(rand(10, 15), true),
         /**
          * Randomizing if it has an image

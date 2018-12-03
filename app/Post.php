@@ -102,4 +102,8 @@ class Post extends Model
     public function scopeDraft($query) {
         return $query->whereNull('published_at');
     }
+
+    public function scopeOwn($query) {
+        return $query->where('author_id', auth()->user()->id);
+    }
 }

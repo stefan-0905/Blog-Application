@@ -25,7 +25,8 @@ class UsersController extends BackendController
      */
     public function create()
     {
-        return view('backend.users.create');
+        $roles = \App\Role::skip(1)->take(PHP_INT_MAX)->get();
+        return view('backend.users.create', compact('roles'));
     }
 
     /**
@@ -41,7 +42,8 @@ class UsersController extends BackendController
             'email' => $request->email,
             'bio' => $request->bio,
             'password' => bcrypt($request->password)
-        ]);
+        ])->attachRole($request->role);
+
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
@@ -65,7 +67,8 @@ class UsersController extends BackendController
     public function edit($id)
     {
         $user = \App\User::findOrFail($id);
-        return view('backend.users.edit', compact('user'));
+        $roles = \App\Role::all();
+        return view('backend.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -85,6 +88,9 @@ class UsersController extends BackendController
 
         if(request()->password_confirmation)
             $user->password = bcrypt(request()->password_confirmation);
+
+        $user->detachRoles();
+        $user->attachRole(request()->role);
 
         $user->save();
 

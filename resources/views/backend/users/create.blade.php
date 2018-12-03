@@ -45,6 +45,18 @@
                                     <span class="help-block">{{ $errors->first('bio') }}</span>
                                 @endif
                             </div>
+                            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                                <label for="role">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    <option value="">Choose a role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('role'))
+                                    <span class="help-block">{{ $errors->first('role') }}</span>
+                                @endif
+                            </div>
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password">New Password</label>
                                 <input type="password" name="password" placeholder="Enter password here" id="password" class="form-control">

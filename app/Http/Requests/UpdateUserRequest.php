@@ -27,7 +27,8 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required|min:3|max:255',
             'email' => 'email|required|unique:users',
             'bio' => 'required',
-            'password' => 'required_with:password_confirmation|confirmed'
+            'password' => 'required_with:password_confirmation|confirmed',
+            'role' => 'required'
         ];
     }
 }

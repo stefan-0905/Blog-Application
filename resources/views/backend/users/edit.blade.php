@@ -19,6 +19,7 @@
     <section class="content">
         <div class="row">
             <!-- form start -->
+
             <form role="form" method="POST" action="{{ route('users.update', ['user'=> $user->id]) }}">
                 <input type="hidden" name="_method" value="PUT">
                 @csrf
@@ -46,6 +47,27 @@
                                     <span class="help-block">{{ $errors->first('bio') }}</span>
                                 @endif
                             </div>
+                            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                                    <label for="role">Role</label>
+                                    @if($user->exists && $user->id == config('cms.default_user_id'))
+                                        <input type="hidden" name="role" value="{{ $user->roles->first()->id }}">
+                                        <p class="form-cotrol-static">{{ $user->roles->first()->display_name }}</p>
+                                    @else 
+                                        <select name="role" id="role" class="form-control">
+                                            <option value="">Choose a role</option>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->id }}" 
+                                                    @if($user->roles->first()->id == $role->id) 
+                                                        selected
+                                                    @endif>
+                                                    {{ $role->display_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                    @if ($errors->has('role'))
+                                        <span class="help-block">{{ $errors->first('role') }}</span>
+                                    @endif
+                                </div>
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password">New Password</label>
                                 <input type="password" name="password" placeholder="Enter password here" id="password" class="form-control">

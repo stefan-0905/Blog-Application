@@ -28,6 +28,8 @@ class PostsController extends BackendController
             $posts = \App\Post::scheduled()->with('author', 'category')->latestFirst()->Paginate(5);
         } elseif($status == 'draft') {
             $posts = \App\Post::draft()->with('author', 'category')->latestFirst()->Paginate(5);
+        } elseif($status == 'own') {
+            $posts = \App\Post::own()->with('author', 'category')->latestFirst()->Paginate(5);
         } else {
             $posts = \App\Post::with('author', 'category')->latestFirst()->Paginate(5);
         }
@@ -37,11 +39,12 @@ class PostsController extends BackendController
 
     private function statusList() {
         return [
-            'trashed' => \App\Post::onlyTrashed()->count(),
+            'own' => auth()->user()->posts()->count(), 
+            'all' => \App\Post::all()->count(),
             'published' => \App\Post::published()->count(),
             'scheduled' => \App\Post::scheduled()->count(),
             'draft' => \App\Post::draft()->count(),
-            'all' => \App\Post::all()->count()
+            'trashed' => \App\Post::onlyTrashed()->count()
         ];
     }
 

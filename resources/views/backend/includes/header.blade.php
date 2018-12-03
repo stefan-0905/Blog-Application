@@ -30,7 +30,7 @@
                         <img src="{{ $currentUser->avatar }}" class="img-circle" alt="{{ $currentUser->name }}">
         
                         <p>
-                        {{ $currentUser->name }} - Web Developer
+                        {{ $currentUser->name }} - {{ $currentUser->roles->first()->display_name }}
                         <small>Member since {{ $currentUser->created_at->toFormattedDateString() }}</small>
                         </p>
                     </li>

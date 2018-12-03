@@ -50,8 +50,12 @@
                   <li><a href="pages/charts/flot.html" class="pl-3"><i class="fas fa-trash mr-2"></i> Trash</a></li>  
               </ul>
             </li>
-            <li><a href="{{ route('categories.index') }}"><i class="fa fa-book"></i> <span>Categories</span></a></li>
-            <li><a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>Users</span></a></li>
+            @if(checkUserPermissions(request(), "Categories@index"))
+                <li><a href="{{ route('categories.index') }}"><i class="fa fa-book"></i> <span>Categories</span></a></li>
+            @endif
+            @if(checkUserPermissions(request(), "Users@index"))
+                <li><a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span>Users</span></a></li>
+            @endif
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

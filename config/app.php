@@ -166,6 +166,7 @@ return [
         
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laratrust\LaratrustServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -226,6 +227,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
 
     ],
 

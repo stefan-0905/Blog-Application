@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\DefaultUserException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteUserRequest extends FormRequest
@@ -13,9 +14,16 @@ class DeleteUserRequest extends FormRequest
      */
     public function authorize()
     {
-        // Forbiding access to destroy route for default user
-        return !($this->route('user') == config('cms.default_category_id') ||
-                    $this->route('user') == auth()->user()->id);
+        /**
+         * Forbiding access to destroy route for default user and currently authenticated user
+         * Throwing exception if one of these happens
+         * Else authorize action
+         */
+        if($this->route('user') == config('cms.default_category_id') ||
+                    $this->route('user') == auth()->user()->id)
+            throw new DefaultUserException();
+
+        return true;
     }
 
     /**

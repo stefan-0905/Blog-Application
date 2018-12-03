@@ -99,8 +99,6 @@ class UsersController extends BackendController
      */
     public function destroy(Requests\DeleteUserRequest $request, $user)
     {
-
-        //dd($user);
         $user = \App\User::findOrFail($user);
         $deleteOption = $request->delete_option;
         $selectedUser = $request->selected_user;
@@ -116,7 +114,7 @@ class UsersController extends BackendController
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
-    public function confirmDelete(Request $request, $user)
+    public function confirmDelete(Requests\DeleteUserRequest $request, $user)
     {
         $user = \App\User::findOrFail($user);
         $users = \App\User::where('id', '!=', $user->id)->pluck('name', 'id');

@@ -49,7 +49,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \App\Exceptions\DefaultCategoryException) {
             return response()->redirectTo(route($exception->getRoute()))->with('error', $exception->getMessage());
         }
-        
+
+        if ($exception instanceof \App\Exceptions\DefaultUserException) {
+            return response()->redirectTo(route($exception->getRoute()))->with('error', $exception->getMessage());
+        }
+
         return parent::render($request, $exception);
     }
 }

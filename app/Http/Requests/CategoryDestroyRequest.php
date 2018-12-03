@@ -2,21 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\DefaultCategoryException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryDestroyRequest extends FormRequest
 {
-    /**
-     * The route to redirect to if validation fails.
-     *
-     * @var string
-     * 
-     * DOES NOT WORK SOMEHOW
-     */
-    protected $redirectRoute = 'categories.index';
-    /** For some reason not working */
-    //protected $redirectRoute = "categories.index";
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,8 +14,15 @@ class CategoryDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        // Forbiding access to destroy route for default category Uncategorized
-        return !($this->route('category')->id == config('cms.default_category_id'));
+        /**
+         * Forbiding access to destroy route for default category Uncategorized
+         * Throwing exception if the category ID matches default category id from our config file
+         * Else return true and authorize action
+         */
+        if($this->route('category')->id == config('cms.default_category_id')) 
+            throw new DefaultCategoryException();
+        
+        return true;
     }
 
     /**

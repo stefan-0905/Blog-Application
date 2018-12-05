@@ -16,9 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $categories = Category::with('posts')->orderBy('title', 'asc')->get();
-        $popularPosts = Post::with('author')->published()->popular()->take(3)->get();
-        View::share(['categories' => $categories, 'popularPosts' => $popularPosts]);
+        /**
+         * Sharing sidebar's categories and popular posts with multiple views
+         */
+        View::composer(
+            ['index', 'search', 'show'], 'App\Http\View\Composers\SidebarComposer'
+        );
     }
 
     /**

@@ -15,6 +15,9 @@ class CheckPermissionsMiddleware
      */
     public function handle($request, Closure $next)
     {
+        /**
+         * Checking permission for pages
+         */
         if(!checkUserPermissions($request)) {
             abort(403, 'Forbidden access!');
         }

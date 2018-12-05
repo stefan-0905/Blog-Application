@@ -18,14 +18,18 @@
             </div>
             <div class="widget-body">
                 <ul class="categories">
-                    @foreach($categories as $category)
-                        @if($category->posts()->published()->count() > 0)
-                            <li>
-                                <a href="{{ route('category.search', ['category' => $category->slug]) }}"><i class="fa fa-angle-right"></i> {{ $category->title }}</a>
-                                <span class="badge pull-right">{{ $category->posts()->published()->count() }}</span>
-                            </li>
-                        @endif
-                    @endforeach
+                    @if(count($categories) == 1)
+                        <li>{{$categories[0]}}</li>
+                    @else 
+                        @foreach($categories as $category)
+                            @if($category->posts()->published()->count() > 0)
+                                <li>
+                                    <a href="{{ route('category.search', ['category' => $category->slug]) }}"><i class="fa fa-angle-right"></i> {{ $category->title }}</a>
+                                    <span class="badge pull-right">{{ $category->posts()->published()->count() }}</span>
+                                </li>
+                            @endif
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
@@ -36,23 +40,27 @@
             </div>
             <div class="widget-body">
                 <ul class="popular-posts">
-                    @foreach($popularPosts as $popular_post)
-                        <li>
-                            @if($popular_post->image_url)
-                                <div class="post-image">
-                                    <a href="#">
-                                        <img src="{{ $popular_post->image_thumb }}" />
-                                    </a>
+                    @if(count($popularPosts) == 1)
+                        <li>{{$popularPosts[0]}}</li>
+                    @else 
+                        @foreach($popularPosts as $popular_post)
+                            <li>
+                                @if($popular_post->image_url)
+                                    <div class="post-image">
+                                        <a href="#">
+                                            <img src="{{ $popular_post->image_thumb }}" />
+                                        </a>
+                                    </div>
+                                @endif
+                                <div class="post-body">
+                                    <h6><a href="#">{{ $popular_post->title }}</a></h6>
+                                    <div class="post-meta">
+                                        <span>{{ $popular_post->date }}</span>
+                                    </div>
                                 </div>
-                            @endif
-                            <div class="post-body">
-                                <h6><a href="#">{{ $popular_post->title }}</a></h6>
-                                <div class="post-meta">
-                                    <span>{{ $popular_post->date }}</span>
-                                </div>
-                            </div>
-                        </li>
-                    @endforeach
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>

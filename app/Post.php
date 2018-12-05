@@ -91,6 +91,11 @@ class Post extends Model
         return $query->where('published_at', '<=', now());
     }
 
+    public function scopeFilterByTitle($query, $searchTerm) {
+        if($searchTerm)
+            return $query->where('title', 'like', '%'.$searchTerm.'%');
+    }
+
     public function scopePopular($query) {
         return $query->orderBy('view_count', 'desc');
     }

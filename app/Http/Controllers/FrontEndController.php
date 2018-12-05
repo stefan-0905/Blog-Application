@@ -13,6 +13,7 @@ class FrontEndController extends Controller
         $posts = Post::with('author')
                     ->latestFirst()
                     ->published()
+                    ->filterByTitle(request('search'))
                     ->simplePaginate(4);
         
         return view('index', ['posts' => $posts]);
@@ -49,15 +50,5 @@ class FrontEndController extends Controller
                         ->simplePaginate(4);
                         
         return view('search', ['posts' => $posts, 'search_result' => $author->name]);
-    }
-
-    public function search(Request $request) {
-        $posts = Post::where('title', 'like', '%'.$request->search.'%')
-                        ->with('author')
-                        ->latestFirst()
-                        ->published()
-                        ->simplePaginate();
-        
-        return view('search', ['posts' => $posts, 'search_result' => $request->search]);
     }
 }

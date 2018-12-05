@@ -1,9 +1,8 @@
 <aside class="right-sidebar">
         <div class="search-widget">
-        <form action="{{ route('title.search') }}" method="POST">
-                {{ csrf_field() }}
+        <form action="{{ route('index') }}">
                 <div class="input-group">
-                  <input type="text" name="search" class="form-control input-lg" placeholder="Search for...">
+                  <input type="text" name="search" value="{{request('search')}}" class="form-control input-lg" placeholder="Search for...">
                   <span class="input-group-btn">
                     <button class="btn btn-lg btn-default" type="submit">
                         <i class="fa fa-search"></i>

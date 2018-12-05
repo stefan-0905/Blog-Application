@@ -31,11 +31,6 @@ Route::get('/author/search/{author}', [
     'as' => 'author.search'
 ]);
 
-Route::post('search', [
-    'uses' => 'FrontEndController@search',
-    'as' => 'title.search'
-]);
-
 Route::prefix('admin')->group(function() {
     Auth::routes();
 

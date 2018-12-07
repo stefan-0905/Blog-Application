@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Notification;
 
 class UsersController extends BackendController
 {
@@ -37,12 +38,17 @@ class UsersController extends BackendController
      */
     public function store(Requests\CreateUserRequest $request)
     {
-        \App\User::create([
+        $user = \App\User::create([
             'name' => $request->name,
             'email' => $request->email,
             'bio' => $request->bio,
             'password' => bcrypt($request->password)
         ])->attachRole($request->role);
+
+        /**
+         * Notifying user that he's account was created and that he can start using it
+         */
+        Notification::send([$user], new \App\Notifications\AccountCreated());
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }

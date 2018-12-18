@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class FrontEndController extends Controller
 {
     public function index() {
-        $posts = Post::with('author')
+        $posts = Post::with('author', 'category')
                     ->latestFirst()
                     ->published()
                     ->filterByTitle(request('search'))
@@ -34,7 +35,7 @@ class FrontEndController extends Controller
      */
     public function category_search(Category $category) {
         $posts = $category->posts()
-                        ->with('author')
+                        ->with('author', 'category')
                         ->latestFirst()
                         ->published()
                         ->simplePaginate(4);
@@ -50,5 +51,15 @@ class FrontEndController extends Controller
                         ->simplePaginate(4);
                         
         return view('search', ['posts' => $posts, 'search_result' => $author->name]);
+    }
+
+    public function tag_search(Tag $tag) {
+        $posts = $tag->posts()
+                        ->with('author', 'category')
+                        ->latestFirst()
+                        ->published()
+                        ->simplePaginate(4);
+                        
+        return view('search', ['posts' => $posts, 'search_result' => $tag->name]);
     }
 }

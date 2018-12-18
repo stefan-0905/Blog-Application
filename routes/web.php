@@ -31,6 +31,11 @@ Route::get('/author/search/{author}', [
     'as' => 'author.search'
 ]);
 
+Route::get('/tag/search/{tag}', [
+    'uses' => 'FrontEndController@tag_search',
+    'as' => 'tag.search'
+]);
+
 Route::prefix('admin')->group(function() {
     Auth::routes();
 

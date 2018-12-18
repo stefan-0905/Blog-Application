@@ -1,7 +1,7 @@
 @extends('layouts.frontapp')
 
 @section('content')
-    <h1>Category search: {{ $search_result }}</h1>
+    <h1>Searching For: {{ $search_result }}</h1>
     @if(!$posts->count())
         <div class="alert alert-info">
             Nothing Found.

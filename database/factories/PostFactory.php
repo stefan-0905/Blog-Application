@@ -5,6 +5,7 @@ use App\Post;
 
 $factory->define(Post::class, function (Faker $faker) {
     $title = $faker->sentence(rand(5, 12));
+    $date = $faker->dateTimeBetween('-2 years', 'now');
     return [
         /**
          * Generating random number between 1 and 3 because we are seeding 3 users
@@ -20,7 +21,9 @@ $factory->define(Post::class, function (Faker $faker) {
         /**
          * Randomizing if post is published or not
          */
-        'published_at' => rand(0, 1) == 1 ? now() : NULL,
+        'published_at' => rand(0, 1) == 1 ? $date : NULL,
+        'created_at' => $date,
+        'updated_at' => $date,
         /**
          * Generating random number between 1 and 4 because we are seeding 4 categories
          */

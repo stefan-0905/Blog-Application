@@ -8,9 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 class CategoryDestroyRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
      * @return bool
+     * @throws DefaultCategoryException
      */
     public function authorize()
     {

@@ -14,8 +14,8 @@ class FrontEndController extends Controller
         $posts = Post::with('author', 'category')
                     ->latestFirst()
                     ->published()
-                    ->filterByTitle(request('search'))
-                    ->simplePaginate(4);
+                    ->filter(request()->only(['searchTerm', 'year', 'month']))
+                    ->simplePaginate(5);
         
         return view('index', ['posts' => $posts]);
     }

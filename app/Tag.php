@@ -18,4 +18,9 @@ class Tag extends Model
     public function getRouteKeyName() {
         return 'slug';
     }
+    public function scopeHasPublishedPosts($query) {
+        $query->whereHas('posts', function($qr) {
+                $qr->where('published_at', '<=', now());
+            });
+    }
 }

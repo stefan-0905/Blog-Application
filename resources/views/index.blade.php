@@ -48,7 +48,7 @@
         @endforeach
         
         <nav class="text-center">
-            {{ $posts->links() }}
+            {{ $posts->appends(request()->only(['searchTerm', 'month', 'year']))->links() }}
         </nav>
     @endif
 @endsection

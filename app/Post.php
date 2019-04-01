@@ -3,6 +3,7 @@
 namespace App;
 
 use Markdown;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -104,9 +105,15 @@ class Post extends Model
         return $query->where('published_at', '<=', now());
     }
 
-    public function scopeFilterByTitle($query, $searchTerm) {
-        if($searchTerm)
-            return $query->where('title', 'like', '%'.$searchTerm.'%');
+    public function scopeFilter($query, $filter) {
+        if(isset($filter['month']) && $month = $filter['month']) 
+            $query->whereMonth('published_at', [Carbon::parse($month)->month]);
+
+        if(isset($filter['year']) && $year = $filter['year']) 
+            $query->whereYear('published_at', [$year]);
+
+        if(isset($filter['searchTerm']) && $searchTerm = $filter['searchTerm'])
+            $query->where('title', 'like', '%'.$searchTerm.'%');
     }
 
     public function scopePopular($query) {

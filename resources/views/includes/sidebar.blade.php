@@ -2,7 +2,7 @@
         <div class="search-widget">
         <form action="{{ route('index') }}">
                 <div class="input-group">
-                  <input type="text" name="search" value="{{request('search')}}" class="form-control input-lg" placeholder="Search for...">
+                  <input type="text" name="searchTerm" value="{{ request('searchTerm') }}" class="form-control input-lg" placeholder="Search for...">
                   <span class="input-group-btn">
                     <button class="btn btn-lg btn-default" type="submit">
                         <i class="fa fa-search"></i>
@@ -18,8 +18,8 @@
             </div>
             <div class="widget-body">
                 <ul class="categories">
-                    @if(count($categories) == 1)
-                        <li>{{$categories[0]}}</li>
+                    @if(empty($categories))
+                        <li>There are no categories.</li>
                     @else 
                         @foreach($categories as $category)
                             @if($category->posts()->published()->count() > 0)
@@ -40,20 +40,20 @@
             </div>
             <div class="widget-body">
                 <ul class="popular-posts">
-                    @if(count($popularPosts) == 1)
-                        <li>{{$popularPosts[0]}}</li>
+                    @if(empty($popularPosts))
+                        <li>There are no posts.</li>
                     @else 
                         @foreach($popularPosts as $popular_post)
                             <li>
                                 @if($popular_post->image_url)
                                     <div class="post-image">
-                                        <a href="#">
+                                        <a href="{{ route('show.post', ['post'=>$popular_post->slug]) }}">
                                             <img src="{{ $popular_post->image_thumb }}" />
                                         </a>
                                     </div>
                                 @endif
                                 <div class="post-body">
-                                    <h6><a href="#">{{ $popular_post->title }}</a></h6>
+                                    <h6><a href="{{ route('show.post', ['post'=>$popular_post->slug]) }}">{{ $popular_post->title }}</a></h6>
                                     <div class="post-meta">
                                         <span>{{ $popular_post->date }}</span>
                                     </div>
@@ -71,9 +71,13 @@
             </div>
             <div class="widget-body">
                 <ul class="tags">
-                    @foreach($tags as $tag)
-                        <li><a href="{{ route('tag.search', ['tag' => $tag->slug]) }}">{{ $tag->name }}</a></li>
-                    @endforeach
+                    @if(empty($tags))
+                        <li>There are no tags.</li>
+                    @else 
+                        @foreach($tags as $tag)
+                            <li><a href="{{ route('tag.search', ['tag' => $tag->slug]) }}">{{ $tag->name }}</a></li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
@@ -84,9 +88,12 @@
             </div>
             <div class="widget-body">
                 <ul class="categories">
-                    <li><a href="#">March 2017</a></li>
-                    <li><a href="#">February 2017</a></li>
-                    <li><a href="#">January 2017</a></li>
+                    @foreach ($archives as $archive)
+                        <li>
+                            <a href="{{ route('index', ['month' => $archive->month, 'year' => $archive->year]) }}">{{ $archive->month . " " . $archive->year }}</a>
+                            <span class="badge pull-right">{{ $archive->post_count }}</span>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
